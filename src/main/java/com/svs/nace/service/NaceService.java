@@ -29,7 +29,7 @@ public class NaceService {
     }
 
     public EconomicActivity findNaceDetailsByOrderId(Long economicActivityId) {
-        Optional<EconomicActivity> economicActivity = naceRepository.findById(economicActivityId);
-        return economicActivity.get();
+        EconomicActivity economicActivity = naceRepository.findByOrderNo(economicActivityId);
+        return economicActivity;
     }
 }

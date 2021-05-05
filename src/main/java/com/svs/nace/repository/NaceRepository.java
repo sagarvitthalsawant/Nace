@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NaceRepository extends JpaRepository<EconomicActivity, Long> {
 
-    EconomicActivity findByOrderId(Long orderId);
+    EconomicActivity findByOrderNo(Long orderNo);
 }

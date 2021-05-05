@@ -1,7 +1,5 @@
 package com.svs.nace.entity;
 
-import lombok.Data;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,8 +9,10 @@ public class EconomicActivity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long economicActivityId;
+
     @Column(name = "order_no")
-    private Long order;
+    private Long orderNo;
 
     @Column(name = "level")
     private Long level;
@@ -47,12 +47,12 @@ public class EconomicActivity {
     @Lob
     private String refrenceToISIC = null;
 
-    public Long getOrder() {
-        return order;
+    public Long getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrder(Long order) {
-        this.order = order;
+    public void setOrderNo(Long order) {
+        this.orderNo = order;
     }
 
     public Long getLevel() {

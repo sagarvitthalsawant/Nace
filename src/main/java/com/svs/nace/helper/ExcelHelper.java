@@ -5,15 +5,6 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.multipart.MultipartFile;
 
 public class ExcelHelper {
     public static String TYPE = "application/vnd.ms-excel.sheet.macroenabled.12";
@@ -61,7 +51,7 @@ public class ExcelHelper {
 
                      switch (cellIdx) {
                      case 0:
-                     tutorial.setOrder((long) currentCell.getNumericCellValue());
+                     tutorial.setOrderNo((long) currentCell.getNumericCellValue());
                      break;
 
                      case 1:
