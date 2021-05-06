@@ -18,12 +18,6 @@ public class NaceController {
     @Autowired
     private NaceService economicActivityService;
 
-//    @PutMapping("/")
-//    public EconomicActivity putNaceDetails(@RequestBody EconomicActivity economicActivity){
-//        log.info("recieved putNaceDetails request : {}", economicActivity);
-//        return economicActivityService.saveNaceDetails(economicActivity);
-//    }
-
     @GetMapping("/{id}")
     public EconomicActivity getNaceDetails(@PathVariable("id") Long economicActivityId){
         log.info("recieved getNaceDetails request : {}", economicActivityId);
@@ -32,8 +26,6 @@ public class NaceController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
-
         if (ExcelHelper.hasExcelFormat(file)) {
             try {
                 economicActivityService.saveNaceFile(file);
@@ -42,7 +34,6 @@ public class NaceController {
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not upload the file: " + file.getOriginalFilename() + "!");
             }
         }
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload an excel file!");
     }
 }

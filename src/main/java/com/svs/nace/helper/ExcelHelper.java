@@ -15,7 +15,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelHelper {
     public static String TYPE = "application/vnd.ms-excel.sheet.macroenabled.12";
-    static String[] HEADERs = { "Order", "Level", "Code", "Parent", "Description", "This item includes", "This item also includes", "Rulings", "This item excludes", "Reference to ISIC Rev. 4" };
     static String SHEET = "NACE_REV2_20210204_135820";
 
     public static boolean hasExcelFormat(MultipartFile file) {
@@ -29,7 +28,7 @@ public class ExcelHelper {
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<EconomicActivity> tutorials = new ArrayList<EconomicActivity>();
+            List<EconomicActivity> economicActivities = new ArrayList<EconomicActivity>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -43,7 +42,7 @@ public class ExcelHelper {
 
                 Iterator<Cell> cellsInRow = currentRow.iterator();
 
-                EconomicActivity tutorial = new EconomicActivity();
+                EconomicActivity economicActivity = new EconomicActivity();
 
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
@@ -51,55 +50,43 @@ public class ExcelHelper {
 
                      switch (cellIdx) {
                      case 0:
-                     tutorial.setOrderNo((long) currentCell.getNumericCellValue());
-                     break;
+                         economicActivity.setOrderNo((long) currentCell.getNumericCellValue());
+                         break;
 
                      case 1:
-                     tutorial.setLevel((long) currentCell.getNumericCellValue());
+                         economicActivity.setLevel((long) currentCell.getNumericCellValue());
                      break;
 
                      case 2:
-                         if (currentCell.getCellType() == CellType.NUMERIC) {
-                             tutorial.setCode(NumberToTextConverter.toText(currentCell.getNumericCellValue()));
-                         } else {tutorial.setCode(currentCell.getStringCellValue());}
-
-                         break;
+                         economicActivity.setCode(getCellValueBasedOnCellType(currentCell));
+                     break;
 
                      case 3:
-                         if (currentCell.getCellType() == CellType.NUMERIC) {
-                             tutorial.setParent(NumberToTextConverter.toText(currentCell.getNumericCellValue()));
-                         } else {tutorial.setParent(currentCell.getStringCellValue());}
+                         economicActivity.setParent(getCellValueBasedOnCellType(currentCell));
                      break;
 
                      case 4:
-                             tutorial.setDescription(currentCell.getStringCellValue());
+                         economicActivity.setDescription(getCellValueBasedOnCellType(currentCell));
                      break;
 
                      case 5:
-                             tutorial.setThisItemIncludes(currentCell.getStringCellValue());
+                         economicActivity.setThisItemIncludes(getCellValueBasedOnCellType(currentCell));
                      break;
 
                      case 6:
-                             tutorial.setThisItemAlsoIncludes(currentCell.getStringCellValue());
-                     break;
+                         economicActivity.setThisItemAlsoIncludes(getCellValueBasedOnCellType(currentCell));
+                    break;
 
                      case 7:
-                         if (currentCell.getCellType() == CellType.NUMERIC) {
-                             tutorial.setRuling(NumberToTextConverter.toText(currentCell.getNumericCellValue()));
-                         } else {tutorial.setRuling(currentCell.getStringCellValue());}
-
+                         economicActivity.setRuling(getCellValueBasedOnCellType(currentCell));
                      break;
 
                      case 8:
-                         if(! currentCell.getStringCellValue().isEmpty()) {
-                             tutorial.setThisItemexcludes(currentCell.getStringCellValue());
-                         }
+                         economicActivity.setThisItemexcludes(getCellValueBasedOnCellType(currentCell));
                      break;
 
                      case 9:
-                         if(! currentCell.getStringCellValue().isEmpty()) {
-                             tutorial.setRefrenceToISIC(currentCell.getStringCellValue());
-                         }
+                         economicActivity.setRefrenceToISIC(getCellValueBasedOnCellType(currentCell));
                      break;
 
                      default:
@@ -109,14 +96,24 @@ public class ExcelHelper {
                     cellIdx++;
                 }
 
-                tutorials.add(tutorial);
+                economicActivities.add(economicActivity);
             }
 
             workbook.close();
 
-            return tutorials;
+            return economicActivities;
         } catch (IOException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
+        }
+    }
+
+    public static <T> T getCellValueBasedOnCellType(Cell currentCell) {
+        if(currentCell.getCellType() == CellType.NUMERIC) {
+            return (T) NumberToTextConverter.toText(currentCell.getNumericCellValue());
+        } else if (currentCell.getCellType() == CellType.FORMULA) {
+            return (T) currentCell.getCellFormula();
+        } else {
+            return (T) currentCell.getStringCellValue();
         }
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -19,12 +18,16 @@ public class NaceService {
     @Autowired
     private NaceRepository naceRepository;
 
+    public EconomicActivity save(EconomicActivity economicActivity){
+        return naceRepository.save(economicActivity);
+    }
+
     public void saveNaceFile(MultipartFile file){
         try{
             List<EconomicActivity> economicActivities = ExcelHelper.excelToEconomicActivity(file.getInputStream());
-            economicActivities.forEach(economicActivity -> naceRepository.save(economicActivity));
+            economicActivities.forEach(economicActivity -> save(economicActivity));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage(), e);
         }
     }
 
