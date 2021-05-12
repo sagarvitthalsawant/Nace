@@ -1,6 +1,7 @@
 package com.svs.nace.helper;
 
 import com.svs.nace.entity.EconomicActivity;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+@Slf4j
 public class ExcelHelper {
     public static String TYPE = "application/vnd.ms-excel.sheet.macroenabled.12";
     static String SHEET = "NACE_REV2_20210204_135820";
@@ -21,14 +23,13 @@ public class ExcelHelper {
         return TYPE.equalsIgnoreCase(file.getContentType());
     }
 
-    public static List<EconomicActivity> excelToEconomicActivity(InputStream is) {
-        try {
+    public static List<EconomicActivity> excelToEconomicActivity(InputStream is) throws IOException {
             Workbook workbook = new XSSFWorkbook(is);
 
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<EconomicActivity> economicActivities = new ArrayList<EconomicActivity>();
+            List<EconomicActivity> economicActivities = new ArrayList<>();
 
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -102,9 +103,7 @@ public class ExcelHelper {
             workbook.close();
 
             return economicActivities;
-        } catch (IOException e) {
-            throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
-        }
+
     }
 
     public static <T> T getCellValueBasedOnCellType(Cell currentCell) {
@@ -112,8 +111,6 @@ public class ExcelHelper {
             return (T) NumberToTextConverter.toText(currentCell.getNumericCellValue());
         } else if (currentCell.getCellType() == CellType.FORMULA) {
             return (T) currentCell.getCellFormula();
-        } else {
-            return (T) currentCell.getStringCellValue();
-        }
+        } else { return (T) currentCell.getStringCellValue(); }
     }
 }

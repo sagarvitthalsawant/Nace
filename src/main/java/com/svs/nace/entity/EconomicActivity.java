@@ -1,9 +1,11 @@
 package com.svs.nace.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
-//@Data
+@Data
 @Table(name="EconomicActivity")
 public class EconomicActivity {
 
@@ -47,83 +49,4 @@ public class EconomicActivity {
     @Lob
     private String refrenceToISIC = null;
 
-    public Long getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(Long order) {
-        this.orderNo = order;
-    }
-
-    public Long getLevel() {
-        return level;
-    }
-
-    public void setLevel(Long level) {
-        this.level = level;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getParent() {
-        return parent;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getThisItemIncludes() {
-        return thisItemIncludes;
-    }
-
-    public void setThisItemIncludes(String thisItemIncludes) {
-        this.thisItemIncludes = thisItemIncludes;
-    }
-
-    public String getThisItemAlsoIncludes() {
-        return thisItemAlsoIncludes;
-    }
-
-    public void setThisItemAlsoIncludes(String thisItemAlsoIncludes) {
-        this.thisItemAlsoIncludes = thisItemAlsoIncludes;
-    }
-
-    public String getRuling() {
-        return ruling;
-    }
-
-    public void setRuling(String ruling) {
-        this.ruling = ruling;
-    }
-
-    public String getThisItemexcludes() {
-        return thisItemexcludes;
-    }
-
-    public void setThisItemexcludes(String thisItemexcludes) {
-        this.thisItemexcludes = thisItemexcludes;
-    }
-
-    public String getRefrenceToISIC() {
-        return refrenceToISIC;
-    }
-
-    public void setRefrenceToISIC(String refrenceToISIC) {
-        this.refrenceToISIC = refrenceToISIC;
-    }
 }

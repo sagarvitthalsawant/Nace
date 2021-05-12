@@ -25,6 +25,7 @@ public class SwaggerToUiConfiguration {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Nace Assignment")
                 .description("Assignment for Bank Interview")
+                .version("1.0")
                 .build();
     }
 

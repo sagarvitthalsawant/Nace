@@ -25,7 +25,7 @@ public class NaceController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> postNaceDetails(@RequestParam("file") MultipartFile file) {
         if (ExcelHelper.hasExcelFormat(file)) {
             try {
                 economicActivityService.saveNaceFile(file);

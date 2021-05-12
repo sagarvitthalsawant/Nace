@@ -22,17 +22,12 @@ public class NaceService {
         return naceRepository.save(economicActivity);
     }
 
-    public void saveNaceFile(MultipartFile file){
-        try{
-            List<EconomicActivity> economicActivities = ExcelHelper.excelToEconomicActivity(file.getInputStream());
-            economicActivities.forEach(economicActivity -> save(economicActivity));
-        } catch (IOException e) {
-            log.warn(e.getMessage(), e);
-        }
+    public void saveNaceFile(MultipartFile file) throws IOException {
+        List<EconomicActivity> economicActivities = ExcelHelper.excelToEconomicActivity(file.getInputStream());
+        economicActivities.forEach(economicActivity -> save(economicActivity));
     }
 
     public EconomicActivity findNaceDetailsByOrderId(Long economicActivityId) {
-        EconomicActivity economicActivity = naceRepository.findByOrderNo(economicActivityId);
-        return economicActivity;
+        return naceRepository.findByOrderNo(economicActivityId);
     }
 }
