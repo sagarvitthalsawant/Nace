@@ -20,8 +20,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -144,8 +142,8 @@ public class NaceControllerTest {
         Resource resource = new ClassPathResource("NACE1.xlsm");
         MockMultipartFile file = new MockMultipartFile("file", "NACE_REV2_20210204_135820.xlsm", "application/vnd.ms-excel.sheet.macroenabled.12", resource.getInputStream());
 
-        NaceController naceController1 = new NaceController();
-        ResponseEntity<String> stringResponseEntity = naceController1.postNaceDetails(file);
+        NaceController nace = new NaceController();
+        ResponseEntity<String> stringResponseEntity = nace.postNaceDetails(file);
         Assertions.assertEquals(HttpStatus.EXPECTATION_FAILED, stringResponseEntity.getStatusCode());
         Assertions.assertEquals("Could not upload the file: NACE_REV2_20210204_135820.xlsm!", stringResponseEntity.getBody());
     }
